@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-
+import json as js
 
 def main():
 
-    df = pd.read_csv("../../datasets/salute/osservatori_comuni.csv")
+    df = pd.read_csv("../../../datasets/salute/osservatori_comuni.csv")
 
     interesting_feat = ["Produzione pro-capite Rifiuti Urbani","Reddito imponibile medio per contribuente",
                         "Numero medio componenti per famiglie","% di Raccolta Differenziata",
@@ -58,7 +58,8 @@ def main():
     final_dict["metadata"] = metadata
     final_dict["data"] = df_dict
 
-    return final_dict
+    with open('../../../json_datasets/salute/salute.json', 'w') as outfile:
+        js.dump(final_dict, outfile, indent=4)
 
 if __name__ == '__main__':
     main()
