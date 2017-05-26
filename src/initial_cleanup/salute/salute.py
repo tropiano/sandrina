@@ -4,7 +4,7 @@ import numpy as np
 
 def main():
 
-    df = pd.read_csv("../datasets/salute/osservatori_comuni.csv")
+    df = pd.read_csv("../../datasets/salute/osservatori_comuni.csv")
 
     interesting_feat = ["Produzione pro-capite Rifiuti Urbani","Reddito imponibile medio per contribuente",
                         "Numero medio componenti per famiglie","% di Raccolta Differenziata",
