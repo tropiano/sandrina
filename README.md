@@ -7,14 +7,14 @@ easier their interpretation.
 
 ## directory hierarchy
 
-The following is the dircetory schema of the project:
+The following is the directory schema of the project:
 
 ```
-   datasets/      json_datasets/ notebooks/     src/ 
+   datasets/      json_datasets/ notebooks/     src/
 ```
 
 In the `dataset/` directory the original csv files are stored. The idea is to
-store here also future new and uodated datasets.
+store here also future new and updated datasets.
 
 The `src/` directory contains the source codes for initial cleanup of csv files,
 the import on a database engine, and the analysis.
@@ -63,11 +63,11 @@ it is important to import the city, and the reference year.
 `pyenv` could be a good choice to set up a development environment. See
 [pyenv web page](https://github.com/pyenv/pyenv).
 
-All code, before to pass to the test phase, has to be checked through
+All code, before passing to the test phase, has to be checked through
 [flake8](http://flake8.pycqa.org/en/latest/) module.
 
 All python modules should be installed through `pip`: once `pyenv` is installed
-install a local 2.7.X environment, than install the related `pip` manager
+install a local 2.7.X environment, then install the related `pip` manager
 
 ```
 pyenv install 2.7.13
