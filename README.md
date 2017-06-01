@@ -1,5 +1,7 @@
 # sandrina - A data engineering tool to provide data to people
 
+[![Build Status](https://travis-ci.org/tropiano/sandrina.svg?branch=master)](https://travis-ci.org/tropiano/sandrina)
+
 The aim of the project is to develop a tool and the whole underlying
 infrastructure to provide easy access to open data to the people.
 Not just providing data, but also useful algorithms able to make
