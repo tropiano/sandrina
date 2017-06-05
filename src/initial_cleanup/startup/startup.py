@@ -39,13 +39,13 @@ def main():
     output['metadata']['source'] = 'regione toscana'
     output['metadata']['date'] = '01052017'
     output['data'] = []
-    
+
     for rec in range(0, len(df.index) - 1):
         entry = {}
         for col in interesting_columns:
             entry[col] = smart_str(df.iloc[rec][col]).strip(' \t\n\r')
         output['data'].append(entry)
-    
+
     with open('../../../json_datasets/startup/startup.json', 'w') as outfile:
         js.dump(output, outfile, indent=4)
 

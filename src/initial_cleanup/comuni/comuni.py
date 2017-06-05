@@ -1,6 +1,7 @@
 import pandas as pd
 import json as js
 import sys
+import io
 
 
 def main():
@@ -14,18 +15,20 @@ def main():
     df = df.fillna('')
     df = df.replace(to_replace="-", value="")
 
+    final_dict = dict()
+
     df_dict = df.to_dict(orient='records')
 
     metadata = dict()
     metadata["date"] = "03062017"
     metadata["source"] = "istat"
 
-    final_dict = dict()
     final_dict["metadata"] = metadata
     final_dict["data"] = df_dict
 
-    with open('../../../json_datasets/comuni/comuni.json', 'w') as outfile:
-        js.dump(final_dict, outfile, indent=4)
+    with io.open('../../../json_datasets/comuni/comuni.json', 'w', encoding='utf8') as outfile:
+        data_towrite = js.dumps(final_dict, outfile, indent=4, ensure_ascii=False)
+        outfile.write(unicode(data_towrite))
 
 
 if __name__ == '__main__':
