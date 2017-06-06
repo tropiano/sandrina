@@ -79,3 +79,14 @@ pip install <package>
 ```
 
 no `sudo` privileges should be used here.
+
+## how to create a requirements.txt file
+
+We choose [`pipreqs`](https://github.com/bndr/pipreqs) to create the `requirements.txt` file. 
+
+Instructions to re-create file:
+
+- Navigate to the root of the project
+- Type command: `pipreqs --force .`
+
+The `requirements.txt` file will be over-written. 
