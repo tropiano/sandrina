@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import sys
 import json as js
+import io 
 
 
 
@@ -28,9 +29,10 @@ def main():
             entry[col] = smart_str(df.iloc[rec][col]).strip(' \t\n\r')
         output['data'].append(entry)
 
-    with open('../../../json_datasets/lavoro/lavoro.json', 'w') as outfile:
-        js.dump(output, outfile, indent=4)
-
+    with io.open('../../../json_datasets/lavoro/lavoro.json', 'w', encoding='utf8') as outfile:
+        data_towrite = js.dumps(output, outfile, indent=4, ensure_ascii=False)
+        outfile.write(unicode(data_towrite))
+      
 
 if __name__ == '__main__':
     sys.exit(main())
