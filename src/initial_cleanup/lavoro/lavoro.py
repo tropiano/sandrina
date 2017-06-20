@@ -3,7 +3,11 @@ from django.utils.encoding import smart_str
 import pandas as pd
 import numpy as np
 import sys
-import json as js
+try:
+    import ujson as js
+except ImportError:
+    # fallback to slower json
+    import json as js
 import io 
 
 

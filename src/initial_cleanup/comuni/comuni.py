@@ -1,5 +1,9 @@
 import pandas as pd
-import json as js
+try:
+    import ujson as js
+except ImportError:
+    # fallback to slower json
+    import json as js
 import sys
 import io
 
