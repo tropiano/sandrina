@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Datum</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default rounded borders and increase the bottom margin */ 
+    .navbar {
+      margin-bottom: 50px;
+      border-radius: 0;
+    }
+    
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+   
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+    
+    .btn-info{
+      color: blue;
+      background-color: #F9E79F;
+      border-color: #F9E79F;
+    }
+    
+    .clickable-panel a:hover, .clickable-panel a:active {
+       text-decoration: none;
+    }
+    
+  </style>
+</head>
+<body>
+
+<div style="background:transparent !important" class="jumbotron">
+  <div class="container text-center">
+    <h1>Datum Analytica</h1> 
+    <p>Data to People</p>
+  </div>
+</div>
+
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-danger clickable-panel">
+        <div class="panel-heading text-center">ESPLORA</div>
+        <a href="analytics_datum.html">
+        <div class="panel-body">
+          <h2>
+            Esplora i nostri dataset
+          </h2>
+        </div>
+        </a>
+        <div class="panel-footer">Dati dai portali di Regione Toscana, Liguria, UE</div>  
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-info clickable-panel">
+        <div class="panel-heading text-center">SCOPRI</div>
+        <a href="analytics_datum.html">
+        <div class="panel-body">          
+          <h2>
+            Scopri i nostri modelli
+          </h2>
+        </div>
+        </a>
+        <div class="panel-footer">Test statistici, Machine Learning e oltre</div>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="panel panel-success clickable-panel">
+        <div class="panel-heading text-center">VISUALIZZA</div>
+        <a href="analytics_datum.html">
+        <div class="panel-body">
+          <h2>
+             Dati da un altro angolo
+          </h2>
+        </div>
+      </a>
+        <div class="panel-footer">Visualizzazione interattive e report</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  
+<footer class="container-fluid text-center">
+    
+  <p>Iscriviti alla Newsletter</p>  
+  <form class="form-inline">
+    <input type="email" class="form-control" size="30" placeholder="Email Address">
+    <button type="button" class="btn btn-danger">Iscriviti</button> 
+  </form>
+</footer>
+<footer class="container-fluid text-right" style="background-color:white">
+    <span><img class="first-slide" src="logo_datum.png" height="80"></span>
+</footer>
+</body>
+</html>
