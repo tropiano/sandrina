@@ -1,7 +1,7 @@
 -- Roles
-CREATE ROLE sandrina LOGIN;
-CREATE ROLE sandrina_ro LOGIN;
-CREATE ROLE sandrina_rw LOGIN IN ROLE sandrina_ro;
+CREATE ROLE sandrina LOGIN WITH PASSWORD 'v5sYvBKw';
+CREATE ROLE sandrina_ro LOGIN WITH PASSWORD 'v5sYvBKw';
+CREATE ROLE sandrina_rw LOGIN IN ROLE sandrina_ro WITH PASSWORD 'v5sYvBKw';
 
 -- Database creation
 CREATE DATABASE sandrina WITH OWNER sandrina ENCODING 'UTF8';
