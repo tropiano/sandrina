@@ -1,0 +1,121 @@
+#!/bin/bash
+
+workdir=$(pwd)
+arg="${1}"
+
+usage()
+{
+    echo "Usage: ${0} build|reload|clean|start|stop"
+    exit 2
+}
+
+check()
+{
+    if [  -n $(docker ps -a -q) && $arg -eq "build"  ]
+    then
+        echo "there are running containers, maybe you want to 'reload'?"
+        exit 2;
+    fi
+    if [  -z $(docker ps -a -q) && $arg -eq "clean"  ]
+    then
+        echo "there's nothing to clean, exiting"
+	exit 1;
+    fi
+    if [  -z $(docker ps -a -q) && $arg -eq "reload"  ]
+    then
+        echo "there's nothing to reload, exiting"
+        exit 1;
+    fi
+    if [  -z $(docker ps -a -q) && $arg -eq "start" || $arg -eq "stop"  ]
+    then
+        echo "no built and running docker containers, exiting"
+        exit 1;
+    fi
+}
+
+clean()
+{
+    echo "cleaning all (containers and images)..."
+    docker stop client
+    docker stop postgresql
+    docker rm $(docker ps -a -q)
+    docker rmi $(docker images -a -q)
+    echo ""
+    echo "   done!"
+}
+
+build()
+{
+    echo "Searching Dockerfile's in "
+    echo "  - ${workdir}/postgresql"
+    echo "  - ${workdir}/client"    
+    echo ""
+    echo "building images..."
+    docker build -t postgresql --file $workdir/postgresql/Dockerfile .
+    docker run -t -d --name postgresql --hostname postgresql postgresql
+    docker build -t client --file $workdir/client/Dockerfile .
+    docker run -t -d --name client --hostname client --link postgresql:postgres client
+    echo ""
+    echo "$(docker ps -a)"
+}
+
+reload()
+{
+    echo "Searching Dockerfile's in "
+    echo "  - ${workdir}/postgresql"
+    echo "  - ${workdir}/client\n"
+    echo ""
+    echo "reloading images..."
+    docker stop client
+    docker stop postgresql
+    docker rm $(docker ps -a -q)
+    docker build -t postgresql --file $workdir/postgresql/Dockerfile .
+    docker run -t -d --name postgresql --hostname postgresql postgresql:latest
+    docker build -t client --file $workdir/client/Dockerfile .
+    docker run -t -d --name client --hostname client --link postgresql:postgres client:latest
+    echo ""
+    echo "$(docker ps -a)"
+}
+
+stop()
+{
+    echo "stop docker containers..."
+    docker stop client
+    docker stop postgresql
+    echo "    done!"
+}
+
+start()
+{
+    echo "start docker containers..."
+    docker start postgresql
+    docker start client
+    echo "   done!"
+}
+
+case "${arg}" in
+    start)
+        check
+        start
+        ;;
+     stop)
+        check
+        stop
+        ;;
+     reload)
+        check
+        reload
+        ;;
+     build)
+        check
+        build
+        ;;
+     clean)
+        check
+        clean
+        ;;
+     *)
+        usage
+esac
+
+exit 0
