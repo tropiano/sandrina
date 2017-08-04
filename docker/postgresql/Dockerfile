@@ -16,15 +16,16 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 RUN apt-get update -y && apt-get install -y postgresql-9.6 postgresql-contrib-9.6 
 
 # Add configuration
-COPY ./config/pg_hba.conf /etc/postgresql/9.6/main/pg_hba.conf
-COPY ./config/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf
+COPY ./postgresql/config/pg_hba.conf /etc/postgresql/9.6/main/pg_hba.conf
+COPY ./postgresql/config/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf
 RUN chown postgres:postgres /etc/postgresql/9.6/main/pg_hba.conf
 RUN chown postgres:postgres /etc/postgresql/9.6/main/postgresql.conf
 RUN /etc/init.d/postgresql start
 
 # Configure `sandrina` database
-COPY ./config/db_schema /var/lib/postgresql/db_schema
+COPY ./postgresql/config/db_schema /var/lib/postgresql/db_schema
 RUN chown postgres:postgres -R /var/lib/postgresql/db_schema
+RUN ls /var/lib/postgresql/db_schema
 USER postgres
 RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_global_objects.sql
 RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_comuni_table.sql

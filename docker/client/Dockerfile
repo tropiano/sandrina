@@ -15,7 +15,7 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 RUN apt-get update -y && apt-get install -y postgresql-client-9.6
 
 # Configure connections
-COPY ./config/pgpass /root/.pgpass
+COPY ./client/config/pgpass /root/.pgpass
 RUN chmod 0600 /root/.pgpass
 RUN chown root:root /root/.pgpass
 
