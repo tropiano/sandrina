@@ -10,39 +10,37 @@ RUN apt-get update -y && apt-get install -y software-properties-common python-so
 RUN add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main"
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
-# Install PostgreSQL 9.6
+# Install PostgreSQL 9.6 and other useful stuffs
 #  There are some warnings (in red) that show up during the build. You can hide
 #  them by prefixing each apt-get statement with DEBIAN_FRONTEND=noninteractive
-RUN apt-get update -y && apt-get install -y postgresql-9.6 postgresql-contrib-9.6 
+RUN apt-get update -y && \
+    apt-get install -y postgresql-9.6 postgresql-contrib-9.6 vim sudo less
 
 # Add configuration
 COPY ./postgresql/config/pg_hba.conf /etc/postgresql/9.6/main/pg_hba.conf
 COPY ./postgresql/config/postgresql.conf /etc/postgresql/9.6/main/postgresql.conf
 RUN chown postgres:postgres /etc/postgresql/9.6/main/pg_hba.conf
 RUN chown postgres:postgres /etc/postgresql/9.6/main/postgresql.conf
-RUN /etc/init.d/postgresql start
 
 # Configure `sandrina` database
 COPY ./postgresql/config/db_schema /var/lib/postgresql/db_schema
 RUN chown postgres:postgres -R /var/lib/postgresql/db_schema
-RUN ls /var/lib/postgresql/db_schema
-USER postgres
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_global_objects.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_comuni_table.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_comuni.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_lavoro_table.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_lavoro.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_salute_table.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_salute.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_startup_table.sql
-RUN psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_startup.sql
 
 # Expose the PostgreSQL port
-USER root
 EXPOSE 5432
 
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
-# Set the default command to run when starting the container
-CMD ["/bin/bash"]
+# start the container starting postgresql itself, and creating the db schema
+CMD service postgresql start && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_global_objects.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_comuni_table.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_comuni.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_lavoro_table.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_lavoro.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_salute_table.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_salute.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_startup_table.sql && \
+    sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_startup.sql && \
+    /bin/bash
