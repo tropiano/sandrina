@@ -51,9 +51,9 @@ build()
     echo "  - ${workdir}/client"    
     echo ""
     echo "building images..."
-    docker build -t postgresql --file $workdir/postgresql/Dockerfile .
+    docker build -t postgresql --no-cache --rm --file $workdir/postgresql/Dockerfile .
     docker run -t -d --name postgresql --hostname postgresql postgresql
-    docker build -t client --file $workdir/client/Dockerfile .
+    docker build -t client --no-cache --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client
     echo ""
     echo "$(docker ps -a)"
@@ -66,12 +66,9 @@ reload()
     echo "  - ${workdir}/client\n"
     echo ""
     echo "reloading images..."
-    docker stop client
-    docker stop postgresql
-    docker rm $(docker ps -a -q)
-    docker build -t postgresql --file $workdir/postgresql/Dockerfile .
+    docker build -t postgresql --rm --file $workdir/postgresql/Dockerfile .
     docker run -t -d --name postgresql --hostname postgresql postgresql:latest
-    docker build -t client --file $workdir/client/Dockerfile .
+    docker build -t client --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client:latest
     echo ""
     echo "$(docker ps -a)"
