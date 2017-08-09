@@ -5,29 +5,42 @@ arg="${1}"
 
 usage()
 {
-    echo "Usage: ${0} build|reload|clean|start|stop"
+    echo "Usage: ${0} build|reload|clean|start|stop\n"
+    echo "   See further details running '${0} help'\n" 
     exit 2
+}
+
+help()
+{
+    echo "${0} - a tool to manage dockers containers in Datum Analitica infrastructure\n"
+    echo ""
+    echo "     Usage: ${0} build|reload|clean|start|stop\n\n"
+    echo "   - build:  build a brand new fresh docker cluster. Can be used for"
+    echo "             a new rebuild. This is a disruptive operation\n"
+    echo "   - reload: refresh containers' configurations, just start build from"
+    echo "             first change. Use more cache as possible. This is"
+    echo "             generally a non disruptive operation\n"
+    echo "   - start,"
+    echo "     stop:   start/stop containers. Keep them resumable.\n"
+    echo "   - clean:  remove conatiners and images from host machine\n\n"
+    exit 0
 }
 
 check()
 {
-    if [  -n $(docker ps -a -q) && $arg -eq "build"  ]
-    then
+    if [  -n $(docker ps -a -q) && $arg -eq "build"  ]; then
         echo "there are running containers, maybe you want to 'reload'?"
         exit 2;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "clean"  ]
-    then
+    if [  -z $(docker ps -a -q) && $arg -eq "clean"  ]; then
         echo "there's nothing to clean, exiting"
 	exit 1;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "reload"  ]
-    then
+    if [  -z $(docker ps -a -q) && $arg -eq "reload"  ]; then
         echo "there's nothing to reload, exiting"
         exit 1;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "start" || $arg -eq "stop"  ]
-    then
+    if [  -z $(docker ps -a -q) && $arg -eq "start" || $arg -eq "stop"  ]; then
         echo "no built and running docker containers, exiting"
         exit 1;
     fi
@@ -41,7 +54,7 @@ clean()
     docker rm $(docker ps -a -q)
     docker rmi $(docker images -a -q)
     echo ""
-    echo "   done!"
+    echo "   done!\n\n"
 }
 
 build()
@@ -56,7 +69,7 @@ build()
     docker build -t client --no-cache --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client
     echo ""
-    echo "$(docker ps -a)"
+    echo "$(docker ps -a)\n\n"
 }
 
 reload()
@@ -71,7 +84,7 @@ reload()
     docker build -t client --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client:latest
     echo ""
-    echo "$(docker ps -a)"
+    echo "$(docker ps -a)\n\n"
 }
 
 stop()
@@ -79,7 +92,7 @@ stop()
     echo "stop docker containers..."
     docker stop client
     docker stop postgresql
-    echo "    done!"
+    echo "    done!\n\n"
 }
 
 start()
@@ -87,11 +100,11 @@ start()
     echo "start docker containers..."
     docker start postgresql
     docker start client
-    echo "   done!"
+    echo "   done!\n\n"
 }
 
 case "${arg}" in
-    start)
+     start)
         check
         start
         ;;
@@ -111,6 +124,9 @@ case "${arg}" in
         check
         clean
         ;;
+     help)
+	help
+	;;
      *)
         usage
 esac
