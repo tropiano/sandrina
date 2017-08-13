@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
 RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-
+    
 # Add PostgreSQL's repository. It contains the most recent stable release of PostgreSQL, 9.6
 RUN apt-get update -y && apt-get install -y software-properties-common python-software-properties wget
 RUN add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main"

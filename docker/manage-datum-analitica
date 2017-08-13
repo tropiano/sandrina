@@ -68,6 +68,8 @@ build()
     docker run -t -d --name postgresql --hostname postgresql postgresql
     docker build -t client --no-cache --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client
+    docker build -t web --no-cache --rm --file $workdir/web/Dockerfile .
+    docker run -t -d --name web -p 5000:5000 --hostname web --link postgresql:postgres web
     echo ""
     echo "$(docker ps -a)\n\n"
 }
@@ -77,12 +79,15 @@ reload()
     echo "Searching Dockerfile's in "
     echo "  - ${workdir}/postgresql"
     echo "  - ${workdir}/client\n"
+    echo "  - ${workdir}/web\n"
     echo ""
     echo "reloading images..."
     docker build -t postgresql --rm --file $workdir/postgresql/Dockerfile .
     docker run -t -d --name postgresql --hostname postgresql postgresql:latest
     docker build -t client --rm --file $workdir/client/Dockerfile .
     docker run -t -d --name client --hostname client --link postgresql:postgres client:latest
+    docker build -t web --rm --file $workdir/web/Dockerfile .
+    docker run -t -d --name web -p 5000:5000 --hostname web --link postgresql:postgres web
     echo ""
     echo "$(docker ps -a)\n\n"
 }
