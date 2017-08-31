@@ -45,7 +45,7 @@ def main():
     df = df.fillna('')
     df = df.replace(to_replace="-", value="")
 
-    final_dict = dict()
+    final_dict = dict() 
 
     df_dict = df.to_dict(orient='records')
 

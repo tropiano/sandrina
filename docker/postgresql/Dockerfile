@@ -24,7 +24,11 @@ RUN chown postgres:postgres /etc/postgresql/9.6/main/postgresql.conf
 
 # Configure `sandrina` database
 COPY ./postgresql/config/db_schema /var/lib/postgresql/db_schema
+COPY ./postgresql/fill_db.py /var/lib/postgresql/fill_db.py
+COPY ./postgresql/data/comuni_min.json /var/lib/postgresql/comuni_min.json
 RUN chown postgres:postgres -R /var/lib/postgresql/db_schema
+RUN apt-get install -y python-pip python-dev build-essential
+RUN pip install psycopg2
 
 # Expose the PostgreSQL port
 EXPOSE 5432
@@ -43,4 +47,6 @@ CMD service postgresql start && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_salute.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_startup_table.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_startup.sql && \
+    python /var/lib/postgresql/fill_db.py && \
     /bin/bash
+

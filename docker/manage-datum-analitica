@@ -51,6 +51,7 @@ clean()
     echo "cleaning all (containers and images)..."
     docker stop client
     docker stop postgresql
+    docker stop web
     docker rm $(docker ps -a -q)
     docker rmi $(docker images -a -q)
     echo ""

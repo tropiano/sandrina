@@ -29,7 +29,7 @@ db.Model.metadata.reflect(db.engine)
 
 class comuni(db.Model):
     
-    __table__ = db.Model.metadata.tables['comuni']        
+    __table__ = db.Model.metadata.tables['comuni']
      
 
 
