@@ -3,7 +3,7 @@ import json as js
 
 
 #load the comuni json file
-f = open("comuni_min.json")
+f = open("/var/lib/postgresql/comuni_min.json")
 js_file = f.read()
 js_dict = js.loads(js_file,encoding='utf-8')
 js_data=js_dict['data']
