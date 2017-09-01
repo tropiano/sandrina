@@ -36,8 +36,18 @@ class comuni(db.Model):
 @app.route('/', methods=['GET'])
 def home():
     
-    cur=db.session.query(comuni).limit(3)    
-    return render_template('show_all.html', entries=cur)
+    cur=db.session.query(comuni).limit(3)
+    return render_template('home_datum.html', entries=cur)
+
+
+@app.route('/<nome_regione>/comuni', methods=['GET'])
+def show_comuni(nome_regione):
+    
+    cur=db.session.query(comuni).filter(comuni.regione == nome_regione)
+    return render_template('analytics_datum.html', entries=cur.all(), regione=nome_regione)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')
