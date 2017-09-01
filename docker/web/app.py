@@ -30,7 +30,11 @@ db.Model.metadata.reflect(db.engine)
 class comuni(db.Model):
     
     __table__ = db.Model.metadata.tables['comuni']
-     
+
+
+class salute(db.Model):
+    
+    __table__ = db.Model.metadata.tables['salute']
 
 
 @app.route('/', methods=['GET'])

@@ -154,7 +154,7 @@ where `XXXXX` is the TCP port addressed to the `postgresql` container - it shoul
 be obtainable through the `netstat` command. Actually, all is thought to enable
 connections between docker containers.
 
-**Usefull docker commands**:
+**Useful docker commands**:
 
 * `docker ps -a` to list the status of the containers
 * `docker exec -it client bash` to login in the `client` container's shell (as
@@ -167,3 +167,15 @@ Other useful commands can be found in the `manage-datum-analitica` script.
 [NOTE]
 If docker has not been confgured to be run without root privileges, consider
 to run the commands with `sudo`.
+
+### Web Applications
+
+Once run the `manage-datum-analitica` script with the command
+
+* `manage-datum-analitica build`
+
+Navigate to the following link: http://0.0.0.0:5000/. This is the home page. 
+
+The template for every regione is the same. You can see here for Toscana: http://0.0.0.0:5000/Toscana/comuni
+
+To check for different regione just replace the regione name. For Sicilia http://0.0.0.0:5000/Sicilia/comuni
