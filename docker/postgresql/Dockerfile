@@ -26,6 +26,7 @@ RUN chown postgres:postgres /etc/postgresql/9.6/main/postgresql.conf
 COPY ./postgresql/config/db_schema /var/lib/postgresql/db_schema
 COPY ./postgresql/fill_db.py /var/lib/postgresql/fill_db.py
 COPY ./postgresql/data/comuni_min.json /var/lib/postgresql/comuni_min.json
+COPY ./postgresql/data/salute.json /var/lib/postgresql/salute.json
 RUN chown postgres:postgres -R /var/lib/postgresql/db_schema
 RUN apt-get install -y python-pip python-dev build-essential
 RUN pip install psycopg2
