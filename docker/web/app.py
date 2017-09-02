@@ -66,8 +66,6 @@ def show_regione(nome_regione):
     
     negri = []
     
-    print cur_1.all()
-    
     for datum in cur_1.all():
         
         j_datum = datum[1].entry 
@@ -80,6 +78,27 @@ def show_regione(nome_regione):
     
     return render_template('analytics_regioni_datum.html', entries=cur.all(), regione = nome_regione,
                            negri_max = negri_max, negri_min = negri_min, negri_avg = negri_avg)
+
+
+@app.route('/<nome_regione>/<nome_comune>', methods=['GET'])
+def show_comune(nome_regione, nome_comune):
+    
+    
+    cur = db.session.query(comuni, salute).join(salute, salute.comune_id==comuni.id).filter(
+            comuni.nome == nome_comune).filter(salute.anno == 2014)
+    
+    reddito = 0.
+    negri = 0.
+    for datum in cur.all():
+        
+        j_datum = datum[1].entry
+        reddito_res = j_datum['Reddito imponibile medio per residente']
+        reddito_con = j_datum['Reddito imponibile medio per contribuente']
+        negri = j_datum['Percentuale nati di cittadinanza non italiana']
+        nascite = j_datum['Quoziente di incremento naturale (x 1.000)']
+        
+    return render_template('analytics_comuni_datum.html', entries=cur.all(), reddito_res = reddito_res,
+                           reddito_con = reddito_con, negri = negri, nome_comune = nome_comune, nascite = nascite/10.)
 
     #cur = db.session.query(Teams, Leagues, Results).join(Results,Teams.id==Results.team_id).join(
     #      Leagues, Leagues.id == Teams.league_id).filter(Leagues.league_name == serie_name).filter(
