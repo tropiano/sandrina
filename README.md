@@ -176,6 +176,12 @@ Once run the `manage-datum-analitica` script with the command
 
 Navigate to the following link: http://0.0.0.0:5000/. This is the home page. 
 
-The template for every regione is the same. You can see here for Toscana: http://0.0.0.0:5000/Toscana/comuni
+The template for every regione is the same. You can see here for Toscana: http://0.0.0.0:5000/Toscana/
 
-To check for different regione just replace the regione name. For Sicilia http://0.0.0.0:5000/Sicilia/comuni
+To check for different regione just replace the regione name. For Sicilia http://0.0.0.0:5000/Sicilia/
+
+Only 3 endpoints work for the moment:
+
+- http://0.0.0.0:5000/regioni/
+- http://0.0.0.0:5000/<nome_regione>
+- http://0.0.0.0:5000/Toscana/<nome_comune>
