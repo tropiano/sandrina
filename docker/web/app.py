@@ -107,14 +107,19 @@ def show_comune(nome_regione, nome_comune):
         reddito_con = j_datum['Reddito imponibile medio per contribuente']
         stranieri = j_datum['Percentuale nati di cittadinanza non italiana']
         nascite = j_datum['Quoziente di incremento naturale (x 1.000)']
-
+    
+    if not nascite:
+        nascite = 'non disponibili'
+    else:
+        nascite = nascite/10.    
+        
     return render_template('analytics_comuni_datum.html',
                            entries=cur.all(),
                            reddito_res=reddito_res,
                            reddito_con=reddito_con,
                            stranieri=stranieri,
                            nome_comune=nome_comune,
-                           nascite=nascite / 10.)
+                           nascite=nascite)
 
 
 if __name__ == '__main__':
