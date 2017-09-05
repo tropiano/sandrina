@@ -170,9 +170,9 @@ to run the commands with `sudo`.
 
 ### Web Applications
 
-Once run the `manage-datum-analitica` script with the command
+Once run the `manage-datum-analitica` script with the command in the docker folder
 
-* `manage-datum-analitica build`
+* `[sudo] ./manage-datum-analitica build`
 
 Navigate to the following link: http://0.0.0.0:5000/. This is the home page. 
 
@@ -180,7 +180,7 @@ The template for every regione is the same. You can see here for Toscana: http:/
 
 To check for different regione just replace the regione name. For Sicilia http://0.0.0.0:5000/Sicilia/
 
-Only 3 endpoints work for the moment:
+Only 3 endpoints work for the moment (case sensitive):
 
 - http://0.0.0.0:5000/regioni/
 - http://0.0.0.0:5000/<nome_regione>
