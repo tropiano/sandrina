@@ -67,25 +67,25 @@ def show_regione(nome_regione):
                                     ).filter(comuni.regione == nome_regione
                                              ).filter(salute.anno == 2014)
 
-    negri = []
+    stranieri = []
 
     for datum in cur_1.all():
 
         j_datum = datum[1].entry
         comune_name = datum[0].nome
-        negri.append(j_datum['Percentuale nati di cittadinanza non italiana'],
-                     comune_name)
+        stranieri.append((j_datum['Percentuale nati di cittadinanza non italiana'],
+                     comune_name))
 
-    negri_max = max(negri, key=lambda item: item[0])
-    negri_min = min(negri, key=lambda item: item[0])
-    negri_avg = sum(n[0] for n in negri) / float(len(negri))
+    stranieri_max = max(stranieri, key=lambda item: item[0])
+    stranieri_min = min(stranieri, key=lambda item: item[0])
+    stranieri_avg = sum(n[0] for n in stranieri) / float(len(stranieri))
 
     return render_template('analytics_regioni_datum.html',
-                           entries=cur.all(),
-                           regione=nome_regione,
-                           negri_max=negri_max,
-                           negri_min=negri_min,
-                           negri_avg=negri_avg)
+                           entries = cur.all(),
+                           regione = nome_regione,
+                           stranieri_max = stranieri_max,
+                           stranieri_min = stranieri_min,
+                           stranieri_avg = stranieri_avg)
 
 
 @app.route('/<nome_regione>/<nome_comune>', methods=['GET'])
@@ -97,7 +97,7 @@ def show_comune(nome_regione, nome_comune):
                                         ).filter(comuni.nome == nome_comune
                                                  ).filter(salute.anno == 2014)
 
-    negri = 0.
+    stranieri = 0.
     nascite = 0.
     reddito_res = None
     reddito_con = None
@@ -105,14 +105,14 @@ def show_comune(nome_regione, nome_comune):
         j_datum = datum[1].entry
         reddito_res = j_datum['Reddito imponibile medio per residente']
         reddito_con = j_datum['Reddito imponibile medio per contribuente']
-        negri = j_datum['Percentuale nati di cittadinanza non italiana']
+        stranieri = j_datum['Percentuale nati di cittadinanza non italiana']
         nascite = j_datum['Quoziente di incremento naturale (x 1.000)']
 
     return render_template('analytics_comuni_datum.html',
                            entries=cur.all(),
                            reddito_res=reddito_res,
                            reddito_con=reddito_con,
-                           negri=negri,
+                           stranieri=stranieri,
                            nome_comune=nome_comune,
                            nascite=nascite / 10.)
 
