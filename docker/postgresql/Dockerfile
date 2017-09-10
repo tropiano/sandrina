@@ -39,6 +39,8 @@ EXPOSE 5432
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
+RUN mkdir -p /var/log/fill_db
+
 # start the container starting postgresql itself, and creating the db schema
 CMD service postgresql start && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_global_objects.sql && \
@@ -50,7 +52,7 @@ CMD service postgresql start && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_salute.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_startup_table.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_startup.sql && \
-    python /var/lib/postgresql/fill_db.py comuni /var/lib/postgresql/comuni_min.json && \
-    python /var/lib/postgresql/fill_db.py salute /var/lib/postgresql/salute.jso  && \
+    python /var/lib/postgresql/fill_db.py comuni /var/lib/postgresql/comuni_min.json >/var/log/fill_db/comuni.log 2>&1 && \
+    python /var/lib/postgresql/fill_db.py salute /var/lib/postgresql/salute.json >/var/log/fill_db/salute.log 2>&1 && \
     /bin/bash
 

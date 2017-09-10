@@ -105,10 +105,10 @@ class DbLoader:
 
                 data_tuple = ()
                 # "'" in city names has to be escaped in SQL
-                comune = j['comune']
+                comune = j['comune'].lower()
                 if "'" in comune:
                     comune = comune.replace("'", "''")
-                comuni_id_query = "SELECT id FROM comuni WHERE nome = '%s'" % comune
+                comuni_id_query = "SELECT id FROM comuni WHERE lower(nome) = '%s'" % comune
                 cur.execute(comuni_id_query)
                 try:
                     comuni_id = cur.fetchone()[0]
@@ -151,10 +151,10 @@ class DbLoader:
 
                 data_tuple = ()
                 # "'" in city names has to be escaped in SQL
-                comune = j['comune']
+                comune = j['comune'].lower()
                 if "'" in comune:
                     comune = comune.replace("'", "''")
-                comuni_id_query = "SELECT id FROM comuni WHERE nome = '%s'" % comune
+                comuni_id_query = "SELECT id FROM comuni WHERE lower(nome) = '%s'" % comune
                 cur.execute(comuni_id_query)
                 try:
                     comuni_id = cur.fetchone()[0]
@@ -168,9 +168,12 @@ class DbLoader:
                     sys.exit(1)
 
                 date = j["data inizio dell'esercizio effettivo dell'attivita"]
-                datee = datetime.datetime.strptime(date, "%d/%m/%Y")
-                mese = datee.month
-                anno = datee.year
+                mese = ""
+                anno = ""
+                if date == "":
+                    datee = datetime.datetime.strptime(date, "%d/%m/%Y")
+                    mese = datee.month
+                    anno = datee.year
 
                 data_tuple += (comuni_id,)
                 data_tuple += (mese,)
@@ -203,10 +206,10 @@ class DbLoader:
 
                 data_tuple = ()
                 # "'" in city names has to be escaped in SQL
-                comune = j['Denominazione del SLL 2011']
+                comune = j['Denominazione del SLL 2011'].lower()
                 if "'" in comune:
                     comune = comune.replace("'", "''")
-                comuni_id_query = "SELECT id FROM comuni WHERE nome = '%s'" % comune
+                comuni_id_query = "SELECT id FROM comuni WHERE lower(nome) = '%s'" % comune
                 cur.execute(comuni_id_query)
                 try:
                     comuni_id = cur.fetchone()[0]
