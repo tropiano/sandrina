@@ -27,7 +27,9 @@ COPY ./postgresql/config/db_schema /var/lib/postgresql/db_schema
 COPY ./postgresql/fill_db.py /var/lib/postgresql/fill_db.py
 COPY ./postgresql/data/comuni_min.json /var/lib/postgresql/comuni_min.json
 COPY ./postgresql/data/salute.json /var/lib/postgresql/salute.json
-RUN chown postgres:postgres -R /var/lib/postgresql/db_schema
+COPY ./postgresql/data/startup.json /var/lib/postgresql/startup.json
+COPY ./postgresql/data/lavoro.json /var/lib/postgresql/lavoro.json
+RUN chown postgres:postgres -R /var/lib/postgresql/
 RUN apt-get install -y python-pip python-dev build-essential
 RUN pip install psycopg2
 
@@ -48,6 +50,7 @@ CMD service postgresql start && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_salute.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_startup_table.sql && \
     sudo -iu postgres psql -U postgres -f /var/lib/postgresql/db_schema/create_indexes_on_startup.sql && \
-    python /var/lib/postgresql/fill_db.py && \
+    python /var/lib/postgresql/fill_db.py comuni /var/lib/postgresql/comuni_min.json && \
+    python /var/lib/postgresql/fill_db.py salute /var/lib/postgresql/salute.jso  && \
     /bin/bash
 

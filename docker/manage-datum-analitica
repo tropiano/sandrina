@@ -28,19 +28,23 @@ help()
 
 check()
 {
-    if [  -n $(docker ps -a -q) && $arg -eq "build"  ]; then
+    if [  -n $(docker ps -a -q) && $arg -eq "build"  ]
+      then
         echo "there are running containers, maybe you want to 'reload'?"
         exit 2;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "clean"  ]; then
+    if [  -z $(docker ps -a -q) && $arg -eq "clean"  ]
+      then
         echo "there's nothing to clean, exiting"
 	exit 1;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "reload"  ]; then
+    if [  -z $(docker ps -a -q) && $arg -eq "reload"  ]
+      then
         echo "there's nothing to reload, exiting"
         exit 1;
     fi
-    if [  -z $(docker ps -a -q) && $arg -eq "start" || $arg -eq "stop"  ]; then
+    if [  -z $(docker ps -a -q) && $arg -eq "start" || $arg -eq "stop"  ]
+      then
         echo "no built and running docker containers, exiting"
         exit 1;
     fi
@@ -96,6 +100,7 @@ reload()
 stop()
 {
     echo "stop docker containers..."
+    docker stop web
     docker stop client
     docker stop postgresql
     echo "    done!\n\n"
@@ -106,6 +111,7 @@ start()
     echo "start docker containers..."
     docker start postgresql
     docker start client
+    docker start web
     echo "   done!\n\n"
 }
 

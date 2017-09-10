@@ -9,6 +9,8 @@ CREATE DATABASE sandrina WITH OWNER sandrina ENCODING 'UTF8';
 -- Database access privileges
 REVOKE CONNECT ON DATABASE sandrina FROM PUBLIC;
 GRANT CONNECT ON DATABASE sandrina TO sandrina;
+GRANT CONNECT ON DATABASE sandrina TO sandrina_rw;
+GRANT CONNECT ON DATABASE sandrina TO sandrina_ro;
 
 -- Table access privileges
 \c sandrina
