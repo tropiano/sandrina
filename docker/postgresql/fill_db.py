@@ -168,9 +168,9 @@ class DbLoader:
                     sys.exit(1)
 
                 date = j["data inizio dell'esercizio effettivo dell'attivita"]
-                mese = ""
-                anno = ""
-                if date == "":
+                mese = None
+                anno = None
+                if date != "":
                     datee = datetime.datetime.strptime(date, "%d/%m/%Y")
                     mese = datee.month
                     anno = datee.year
